@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="/valor-peso-oblivion/manifest.json" />
+  <link rel="icon" type="image/png" href="/valor-peso-oblivion/icon-192.png" />
+  <title>Valor/Peso Oblivion</title>
+  <style>
+    body {
+      background: #1a1a1a;
+      color: #f0e6d2;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    input {
+      margin: 0.5rem;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    #resultado {
+      margin-top: 1rem;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Valor/Peso (Oblivion)</h1>
+  <img src="/valor-peso-oblivion/icon-192.png" alt="Icono" width="64" />
+  <br />
+  <input id="valor" type="number" placeholder="Valor en oro" />
+  <input id="peso" type="number" placeholder="Peso" step="0.1" />
+  <div id="resultado"></div>
+
+  <script>
+    const valorInput = document.getElementById('valor');
+    const pesoInput = document.getElementById('peso');
+    const resultado = document.getElementById('resultado');
+
+    function calcular() {
+      const valor = parseFloat(valorInput.value);
+      const peso = parseFloat(pesoInput.value);
+      if (valor > 0 && peso > 0) {
+        const ratio = (valor / peso).toFixed(2);
+        let color = 'bronze';
+        if (ratio >= 50) color = 'gold';
+        else if (ratio >= 20) color = 'silver';
+        resultado.style.color = color;
+        resultado.textContent = `Ratio: ${ratio}`;
+      } else {
+        resultado.textContent = '';
+      }
+    }
+
+    valorInput.addEventListener('input', calcular);
+    pesoInput.addEventListener('input', calcular);
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/valor-peso-oblivion/sw.js');
+    }
+  </script>
+</body>
+</html>
